@@ -7,6 +7,7 @@ import com.dadapush.client.api.DaDaPushMessageApi;
 import com.dadapush.client.model.MessagePushRequest;
 import com.dadapush.client.model.ResultOfMessagePushResponse;
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -84,7 +85,7 @@ public class DaDaPushPostProjectAnalysisTask extends AbstractComponent implement
       titleBuilder.append("Unknown Status");
     }
 
-    contentBuilder.append(analysis.getProject().getName()).append("\n");
+    contentBuilder.append("Project: ").append(analysis.getProject().getName()).append("\n");
 
     if (qualityGate != null) {
       contentBuilder.append("Status: ").append(qualityGate.getStatus()).append("\n");
@@ -94,7 +95,17 @@ public class DaDaPushPostProjectAnalysisTask extends AbstractComponent implement
           .map(this::translate)
           .collect(Collectors.toList());
 
-      contentBuilder.append(StringUtils.joinWith("\n",collect)).append("\n");
+      final StringBuilder result = new StringBuilder();
+      Iterator<String> iterator = collect.iterator();
+      while (iterator.hasNext()) {
+        final String value = Objects.toString(iterator.next(), "");
+        result.append(value);
+
+        if (iterator.hasNext()) {
+          result.append("\n");
+        }
+      }
+      contentBuilder.append(result.toString()).append("\n");
     } else {
       contentBuilder.append("Status: Unknown").append("\n");
     }
@@ -147,17 +158,20 @@ public class DaDaPushPostProjectAnalysisTask extends AbstractComponent implement
         sb.append(condition.getErrorThreshold());
         appendValuePostfix(condition, sb);
       }
-      return conditionName + ": " + condition.getStatus().name() + "\n" + sb;
+      return conditionName + ": " + condition.getStatus().name() + "\n" + sb.toString();
     }
   }
 
   private void appendValue(QualityGate.Condition condition, StringBuilder sb) {
     if ("".equals(condition.getValue())) {
-      sb.append("-");
+      sb.append("value: ");
+      sb.append("NaN");
     } else {
       if (valueIsPercentage(condition)) {
+        sb.append("value: ");
         appendPercentageValue(condition.getValue(), sb);
       } else {
+        sb.append("value: ");
         sb.append(condition.getValue());
       }
     }
