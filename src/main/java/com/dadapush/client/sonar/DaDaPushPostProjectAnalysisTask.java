@@ -17,11 +17,11 @@ import org.sonar.api.ce.posttask.PostProjectAnalysisTask;
 import org.sonar.api.ce.posttask.QualityGate;
 import org.sonar.api.config.Settings;
 import org.sonar.api.i18n.I18n;
-import org.sonar.api.internal.google.common.base.Joiner;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
+@SuppressWarnings("deprecation")
 public class DaDaPushPostProjectAnalysisTask extends AbstractComponent implements
     PostProjectAnalysisTask {
 
@@ -93,7 +93,8 @@ public class DaDaPushPostProjectAnalysisTask extends AbstractComponent implement
           .filter(condition -> !projectConfig.isQgFailOnly() || notOkNorNoValue(condition))
           .map(this::translate)
           .collect(Collectors.toList());
-      contentBuilder.append(Joiner.on("\n").join(collect)).append("\n");
+
+      contentBuilder.append(StringUtils.joinWith("\n",collect)).append("\n");
     } else {
       contentBuilder.append("Status: Unknown").append("\n");
     }
