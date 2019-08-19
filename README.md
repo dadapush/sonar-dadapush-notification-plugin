@@ -1,0 +1,1 @@
+# sonar-dadapush-notification-plugin

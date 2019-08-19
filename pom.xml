@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.dadapush.client</groupId>
+  <artifactId>sonar-dadapush-plugin</artifactId>
+  <version>1.0.0</version>
+  <packaging>sonar-plugin</packaging>
+
+  <name>SonarQube DaDaPush Notification Plugin</name>
+  <description>SonarQube Sends notifications via DaDaPush.</description>
+
+  <url>https://github.com/dadapush/sonar-dadapush-notification-plugin</url>
+  <scm>
+    <connection>scm:git:git@github.com:dadapush/sonar-dadapush-notification-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:dadapush/sonar-dadapush-notification-plugin.git</developerConnection>
+    <url>https://github.com/dadapush/sonar-dadapush-notification-plugin</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>DaDaPush</name>
+      <email>contacts@dadapush.com</email>
+      <organization>www.dadapush.com</organization>
+      <organizationUrl>https://www.dadapush.com</organizationUrl>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <!-- minimal version of SonarQube to support. -->
+      <version>6.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.dadapush.client</groupId>
+      <artifactId>dadapush-client</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.18.0.372</version>
+        <extensions>true</extensions>
+        <configuration>
+          <jarName>sonar-dadapush-plugin-${project.version}</jarName>
+          <pluginKey>dadapush</pluginKey>
+          <pluginClass>com.dadapush.client.sonar.DaDaPushPlugin</pluginClass>
+          <pluginName>DaDaPush Notification</pluginName>
+          <pluginDescription>${project.description}</pluginDescription>
+          <pluginUrl>https://github.com/dadapush/sonar-dadapush-notification-plugin</pluginUrl>
+          <pluginIssueTrackerUrl>https://github.com/dadapush/sonar-dadapush-notification-plugin/issues</pluginIssueTrackerUrl>
+          <pluginSourcesUrl>https://github.com/dadapush/sonar-dadapush-notification-plugin</pluginSourcesUrl>
+          <pluginOrganizationName>DaDaPush.com</pluginOrganizationName>
+          <pluginOrganizationUrl>https://www.dadapush.com</pluginOrganizationUrl>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
